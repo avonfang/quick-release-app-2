@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日释放打卡</title>
+<link rel="stylesheet" href="css/styles.css">
+ 
+ </head> 
+ <body> 
+ <div class="container"> 
+ <h1>每日释放打卡</h1> 
+ 
+ <!-- 用户信息区域 --> 
+ <div class="user-info" style="text-align: right; margin-bottom: 10px; font-size: 14px; color: #666;"> 
+ 当前用户：<span id="currentUser">未登录</span> 
+ <button onclick="goToStats()" style="margin-left: 10px; padding: 5px 10px; font-size: 12px;">统计分析</button> 
+ <button onclick="toggleNotification()" style="margin-left: 5px; padding: 5px 10px; font-size: 12px;">通知</button> 
+ <button onclick="logout()" style="margin-left: 5px; padding: 5px 10px; font-size: 12px;">登出</button> 
+ <button onclick="goToLogin()" style="margin-left: 5px; padding: 5px 10px; font-size: 12px;">登录</button> 
+ </div> 
+ 
+ <!-- 新增的日期显示区域 --> 
+ <div class="current-date" id="currentDate"></div> 
+ 
+ <div class="timer"> 
+ 剩余时间：<span id="time">30:00</span> 
+ </div> 
+ 
+ <div class="columns"> 
+ 
+ <div class="column"> 
+ <h2>想要安全</h2> 
+ <div id="safe"></div> 
+ </div> 
+ 
+ <div class="column"> 
+ <h2>想要控制</h2> 
+ <div id="control"></div> 
+ </div> 
+ 
+ <div class="column"> 
+ <h2>想要认同</h2> 
+ <div id="recognition"></div> 
+ </div> 
+ 
+ </div> 
+ 
+ <div class="footer"> 
+ <button onclick="resetAll()">重置</button> 
+ </div> 
+ 
+ </div> 
+ <!-- 撒花动画的覆盖层 --> 
+ 
+ <div id="confetti-overlay"> 
+ 
+ <div id="confetti-message"> 
+ 
+ 恭喜你，全部完成！🎉 
+ 
+ </div> 
+ 
+ </div> 
+ <!-- 新增的确认弹窗 --> 
+ 
+ <div id="confirmation-modal" class="modal-overlay"> 
+ 
+ <div class="modal-content"> 
+ 
+ <p id="confirmation-question"></p> 
+ 
+ <button onclick="confirmFeeling()">确认</button> 
+ 
+ </div>
+
+</div>
+<!-- 主题切换按钮 -->
+<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
+
+<script src="js/db.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

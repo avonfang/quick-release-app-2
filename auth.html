@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>用户登录 - 每日释放打卡</title>
+<link rel="stylesheet" href="css/styles.css">
+<style>
+.auth-container {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  width: 400px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.auth-container h1 {
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.auth-buttons button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.login-btn {
+  background: #667eea;
+  color: white;
+}
+
+.login-btn:hover {
+  background: #5a6be0;
+}
+
+.register-btn {
+  background: #4CAF50;
+  color: white;
+}
+
+.register-btn:hover {
+  background: #45a049;
+}
+
+.error-message {
+  color: #ff4d4f;
+  margin-top: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.switch-mode {
+  margin-top: 20px;
+  text-align: center;
+  color: #666;
+}
+
+.switch-mode a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.switch-mode a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .auth-container {
+    width: 95%;
+    padding: 30px;
+  }
+  
+  .auth-buttons {
+    flex-direction: column;
+  }
+}
+</style>
+</head>
+<body>
+<div class="auth-container">
+  <h1>用户登录</h1>
+  
+  <div class="form-group">
+    <label for="username">用户名</label>
+    <input type="text" id="username" placeholder="请输入用户名">
+  </div>
+  
+  <div class="form-group">
+    <label for="password">密码</label>
+    <input type="password" id="password" placeholder="请输入密码">
+  </div>
+  
+  <div class="auth-buttons">
+    <button class="login-btn" onclick="login()">登录</button>
+    <button class="register-btn" onclick="register()">注册</button>
+  </div>
+  
+  <div id="error-message" class="error-message"></div>
+  
+  <div class="switch-mode">
+    <a href="index.html">返回首页</a>
+  </div>
+</div>
+
+<!-- 主题切换按钮 -->
+<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
+
+<script>
+// 主题切换功能
+function toggleTheme() {
+  const body = document.body;
+  const themeToggle = document.getElementById('themeToggle');
+  const isDarkMode = body.classList.contains('dark-mode');
+  
+  if (isDarkMode) {
+    // 切换到浅色模式
+    body.classList.remove('dark-mode');
+    themeToggle.textContent = '🌙';
+    themeToggle.classList.remove('dark');
+    localStorage.setItem('theme', 'light');
+  } else {
+    // 切换到深色模式
+    body.classList.add('dark-mode');
+    themeToggle.textContent = '☀️';
+    themeToggle.classList.add('dark');
+    localStorage.setItem('theme', 'dark');
+  }
+}
+
+// 加载保存的主题
+function loadTheme() {
+  const savedTheme = localStorage.getItem('theme');
+  const body = document.body;
+  const themeToggle = document.getElementById('themeToggle');
+  
+  if (savedTheme === 'dark') {
+    body.classList.add('dark-mode');
+    if (themeToggle) {
+      themeToggle.textContent = '☀️';
+      themeToggle.classList.add('dark');
+    }
+  } else {
+    body.classList.remove('dark-mode');
+    if (themeToggle) {
+      themeToggle.textContent = '🌙';
+      themeToggle.classList.remove('dark');
+    }
+  }
+}
+
+// 检查用户是否已登录
+function checkAuth() {
+  loadTheme(); // 加载保存的主题
+  const currentUser = localStorage.getItem('currentUser');
+  if (currentUser) {
+    window.location.href = 'index.html';
+  }
+}
+
+// 登录函数
+function login() {
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  const errorElement = document.getElementById('error-message');
+  
+  if (!username || !password) {
+    errorElement.textContent = '请输入用户名和密码';
+    return;
+  }
+  
+  // 从localStorage获取用户数据
+  const users = JSON.parse(localStorage.getItem('users') || '{}');
+  
+  if (users[username] && users[username] === password) {
+    // 登录成功
+    localStorage.setItem('currentUser', username);
+    window.location.href = 'index.html';
+  } else {
+    errorElement.textContent = '用户名或密码错误';
+  }
+}
+
+// 注册函数
+function register() {
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  const errorElement = document.getElementById('error-message');
+  
+  if (!username || !password) {
+    errorElement.textContent = '请输入用户名和密码';
+    return;
+  }
+  
+  // 从localStorage获取用户数据
+  const users = JSON.parse(localStorage.getItem('users') || '{}');
+  
+  if (users[username]) {
+    errorElement.textContent = '用户名已存在';
+  } else {
+    // 注册成功
+    users[username] = password;
+    localStorage.setItem('users', JSON.stringify(users));
+    localStorage.setItem('currentUser', username);
+    window.location.href = 'index.html';
+  }
+}
+
+// 页面加载时检查认证状态
+window.onload = checkAuth;
+</script>
+</body>
+</html>
