@@ -12,13 +12,13 @@
  <h1>每日释放打卡</h1> 
  
  <!-- 用户信息区域 --> 
- <div class="user-info" style="text-align: right; margin-bottom: 10px; font-size: 14px; color: #666;"> 
- 当前用户：<span id="currentUser">未登录</span> 
- <button onclick="goToStats()" style="margin-left: 10px; padding: 5px 10px; font-size: 12px;">统计分析</button> 
- <button onclick="toggleNotification()" style="margin-left: 5px; padding: 5px 10px; font-size: 12px;">通知</button> 
- <button onclick="logout()" style="margin-left: 5px; padding: 5px 10px; font-size: 12px;">登出</button> 
- <button onclick="goToLogin()" style="margin-left: 5px; padding: 5px 10px; font-size: 12px;">登录</button> 
- </div> 
+<div class="user-info"> 
+当前用户：<span id="currentUser">未登录</span> 
+<button onclick="goToStats()">统计分析</button> 
+<button onclick="toggleNotification()">通知</button> 
+<button onclick="logout()">登出</button> 
+<button onclick="goToLogin()">登录</button> 
+</div> 
  
  <!-- 新增的日期显示区域 --> 
  <div class="current-date" id="currentDate"></div> 
