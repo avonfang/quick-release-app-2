@@ -5,43 +5,70 @@
   box-sizing: border-box;
 }
 
+html {
+  font-size: 16px;
+}
+
 body {
-  font-family: "Microsoft YaHei", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Microsoft YaHei", sans-serif;
   background: linear-gradient(135deg, #667eea, #764ba2);
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
-  overflow: hidden; /* 防止撒花溢出导致滚动条 */
+  align-items: flex-start;
+  padding: 20px 0;
+  overflow-x: hidden;
 }
 
 .container {
   background: white;
   padding: 30px;
   border-radius: 15px;
-  width: 950px;
+  width: 95%;
+  max-width: 950px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-  position: relative; /* 确保内容在撒花下方 */
+  position: relative;
   z-index: 1;
+  margin: 10px;
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   color: #333;
+  font-size: 1.8rem;
+}
+
+/* 用户信息区域 */
+.user-info {
+  text-align: right;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  color: #666;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-info button {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  margin-left: 0;
 }
 
 /* 日期显示样式 */
 .current-date {
   text-align: center;
-  font-size: 18px;
+  font-size: 1rem;
   color: #555;
-  margin-bottom: 15px; /* 与计时器之间留些空隙 */
+  margin-bottom: 15px;
 }
 
 .timer {
   text-align: center;
-  font-size: 22px;
+  font-size: 1.4rem;
   font-weight: bold;
   color: #ff4d4f;
   margin-bottom: 20px;
@@ -49,55 +76,66 @@ h1 {
 
 .columns {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .column {
   flex: 1;
   background: #f8f9fa;
-  padding: 20px;
+  padding: 15px;
   border-radius: 10px;
   box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
 }
 
 .column h2 {
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   color: #555;
+  font-size: 1.1rem;
 }
 
 .item {
-  margin: 8px 0;
-  font-size: 16px;
+  margin: 6px 0;
+  font-size: 0.95rem;
   color: #444;
+  display: flex;
+  align-items: center;
 }
 
 input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  margin-right: 8px;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
   cursor: pointer;
   vertical-align: middle;
+  flex-shrink: 0;
 }
 
 .footer {
-  margin-top: 20px;
+  margin-top: 25px;
   text-align: center;
 }
 
 button {
-  padding: 10px 20px;
+  padding: 12px 24px;
   border: none;
   background: #667eea;
   color: white;
-  border-radius: 20px;
+  border-radius: 25px;
   cursor: pointer;
-  font-size: 16px;
-  transition: background 0.3s ease;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  touch-action: manipulation;
 }
 
 button:hover {
   background: #5a6be0;
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0);
 }
 
 /* 撒花动画的覆盖层 */
@@ -107,15 +145,16 @@ button:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6); /* 半透明背景 */
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
-  flex-direction: column; /* 消息和撒花分开 */
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 10000; /* 确保在最上层 */
+  z-index: 10000;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.5s, visibility 0.5s;
+  padding: 20px;
 }
 
 #confetti-overlay.active {
@@ -125,23 +164,24 @@ button:hover {
 
 #confetti-message {
   color: white;
-  font-size: 3em;
+  font-size: 1.8rem;
   font-weight: bold;
   text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
   text-align: center;
-  margin-bottom: 50px; /* 消息和撒花之间留空 */
+  margin-bottom: 30px;
   position: relative;
-  z-index: 10001; /* 确保消息在撒花片之上 */
+  z-index: 10001;
+  word-break: break-word;
 }
 
 .confetti-piece {
   position: absolute;
   width: 10px;
   height: 10px;
-  background-color: var(--color); /* 随机颜色 */
-  border-radius: 50%; /* 圆形 */
+  background-color: var(--color);
+  border-radius: 50%;
   opacity: 0;
-  animation: confetti-fall 5s forwards; /* 动画持续5秒 */
+  animation: confetti-fall 5s forwards;
 }
 
 @keyframes confetti-fall {
@@ -162,14 +202,15 @@ button:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* 更深的背景 */
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10002; /* 比撒花更高 */
+  z-index: 10002;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s, visibility 0.3s;
+  padding: 20px;
 }
 
 .modal-overlay.active {
@@ -179,139 +220,68 @@ button:hover {
 
 .modal-content {
   background: white;
-  padding: 40px;
-  border-radius: 10px;
+  padding: 30px 20px;
+  border-radius: 15px;
   text-align: center;
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  width: 90%;
   max-width: 400px;
 }
 
 .modal-content p {
-  font-size: 1.8em;
-  margin-bottom: 30px;
+  font-size: 1.2rem;
+  margin-bottom: 25px;
   color: #333;
   font-weight: bold;
+  line-height: 1.5;
 }
 
 .modal-content button {
-  padding: 12px 25px;
-  font-size: 1.2em;
-  background: #4CAF50; /* 绿色按钮 */
+  padding: 14px 28px;
+  font-size: 1rem;
+  background: #4CAF50;
   border-radius: 25px;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 200px;
 }
 
 .modal-content button:hover {
   background: #45a049;
 }
 
-/* 移动端适配 */
-@media (max-width: 768px) {
-  .container {
-    width: 95%;
-    padding: 20px;
-  }
-  
-  .user-info {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 5px;
-  }
-  
-  .user-info button {
-    font-size: 10px;
-    padding: 4px 8px;
-  }
-  
-  h1 {
-    font-size: 1.5em;
-  }
-  
-  .current-date {
-    font-size: 14px;
-  }
-  
-  .timer {
-    font-size: 18px;
-  }
-  
-  .columns {
-    flex-direction: column;
-  }
-  
-  .column {
-    margin-bottom: 15px;
-    padding: 15px;
-  }
-  
-  .column h2 {
-    font-size: 1.2em;
-  }
-  
-  .item {
-    font-size: 14px;
-  }
-  
-  input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-  }
-  
-  .footer button {
-    padding: 8px 16px;
-    font-size: 14px;
-  }
-  
-  #confetti-message {
-    font-size: 1.5em;
-  }
-  
-  .modal-content {
-    padding: 30px;
-    max-width: 90%;
-  }
-  
-  .modal-content p {
-    font-size: 1.2em;
-  }
-  
-  .modal-content button {
-    padding: 10px 20px;
-    font-size: 1em;
-  }
+/* 主题切换按钮 */
+.theme-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #667eea;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  z-index: 9999;
+  font-size: 1.2rem;
 }
 
-/* 小屏幕手机适配 */
-@media (max-width: 480px) {
-  .container {
-    padding: 15px;
-  }
-  
-  h1 {
-    font-size: 1.3em;
-  }
-  
-  .user-info {
-    flex-direction: column;
-    align-items: flex-end;
-  }
-  
-  .timer {
-    font-size: 16px;
-  }
-  
-  .column h2 {
-    font-size: 1em;
-  }
-  
-  .item {
-    font-size: 12px;
-  }
-  
-  #confetti-message {
-    font-size: 1.2em;
-  }
+.theme-toggle:hover {
+  transform: scale(1.1);
+  background: #5a6be0;
+}
+
+.theme-toggle.dark {
+  background: #2c3e50;
+}
+
+.theme-toggle.dark:hover {
+  background: #34495e;
 }
 
 /* 深色模式 */
@@ -344,52 +314,150 @@ body.dark-mode .modal-content p {
   color: #ecf0f1;
 }
 
-body.dark-mode .stat-item {
-  background: #34495e;
-  color: #ecf0f1;
+/* 平板设备适配 */
+@media (min-width: 768px) {
+  .container {
+    padding: 40px;
+    margin: 20px;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  .columns {
+    flex-direction: row;
+    gap: 20px;
+  }
+  
+  .column {
+    padding: 20px;
+  }
+  
+  .column h2 {
+    font-size: 1.3rem;
+  }
+  
+  .modal-content {
+    padding: 40px;
+  }
+  
+  .modal-content p {
+    font-size: 1.4rem;
+  }
+  
+  #confetti-message {
+    font-size: 2.5rem;
+  }
 }
 
-body.dark-mode .stat-value {
-  color: #95a5a6;
+/* 桌面设备适配 */
+@media (min-width: 1024px) {
+  .container {
+    width: 90%;
+    max-width: 1000px;
+    padding: 50px;
+  }
+  
+  h1 {
+    font-size: 2.2rem;
+  }
+  
+  .timer {
+    font-size: 1.6rem;
+  }
 }
 
-body.dark-mode .progress-bar {
-  background: #2c3e50;
+/* 小屏幕手机适配 */
+@media (max-width: 375px) {
+  .container {
+    padding: 15px;
+    margin: 5px;
+  }
+  
+  h1 {
+    font-size: 1.4rem;
+  }
+  
+  .user-info {
+    font-size: 0.8rem;
+    gap: 5px;
+  }
+  
+  .user-info button {
+    padding: 4px 8px;
+    font-size: 0.7rem;
+  }
+  
+  .timer {
+    font-size: 1.2rem;
+  }
+  
+  .column h2 {
+    font-size: 1rem;
+  }
+  
+  .item {
+    font-size: 0.85rem;
+  }
+  
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .modal-content p {
+    font-size: 1rem;
+  }
+  
+  .modal-content button {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+  }
+  
+  #confetti-message {
+    font-size: 1.4rem;
+  }
+  
+  .theme-toggle {
+    width: 45px;
+    height: 45px;
+    font-size: 1rem;
+  }
 }
 
-body.dark-mode .progress-fill {
-  background: linear-gradient(90deg, #3498db, #9b59b6);
+/* 横屏手机适配 */
+@media (max-height: 500px) and (orientation: landscape) {
+  body {
+    padding: 10px 0;
+  }
+  
+  .container {
+    padding: 15px;
+  }
+  
+  .columns {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .column {
+    flex: 1 1 30%;
+    min-width: 150px;
+  }
 }
 
-/* 主题切换按钮 */
-.theme-toggle {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: #667eea;
-  color: white;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  transition: all 0.3s ease;
-  z-index: 9999;
-}
-
-.theme-toggle:hover {
-  transform: scale(1.1);
-  background: #5a6be0;
-}
-
-.theme-toggle.dark {
-  background: #2c3e50;
-}
-
-.theme-toggle.dark:hover {
-  background: #34495e;
+/* 触摸设备优化 */
+@media (hover: none) and (pointer: coarse) {
+  button:hover {
+    transform: none;
+  }
+  
+  button:active {
+    transform: scale(0.98);
+  }
+  
+  .theme-toggle:hover {
+    transform: none;
+  }
 }
